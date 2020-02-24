@@ -484,10 +484,11 @@ addEvent(H.SVGRenderer, 'complexColor', function (args) {
 // When animation is used, we have to recalculate pattern dimensions after
 // resize, as the bounding boxes are not available until then.
 addEvent(H.Chart, 'endResize', function () {
-    if ((this.renderer && this.renderer.defIds || []).filter(function (id) {
+    var renderer = this.renderer;
+    if ((renderer && renderer.defIds || []).filter(function (id) {
         return (id &&
             id.indexOf &&
-            id.indexOf('highcharts-pattern-') === 0);
+            id.indexOf(renderer.url + 'highcharts-pattern-') === 0);
     }).length) {
         // We have non-default patterns to fix. Find them by looping through
         // all points.
@@ -514,7 +515,7 @@ addEvent(H.Chart, 'redraw', function () {
     // Get the autocomputed patterns - these are the ones we might delete
     patterns = (renderer.defIds || []).filter(function (pattern) {
         return (pattern.indexOf &&
-            pattern.indexOf('highcharts-pattern-') === 0);
+            pattern.indexOf(renderer.url + 'highcharts-pattern-') === 0);
     });
     if (patterns.length) {
         // Look through the DOM for usage of the patterns. This can be points,

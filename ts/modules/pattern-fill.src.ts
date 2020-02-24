@@ -680,14 +680,15 @@ addEvent(H.SVGRenderer, 'complexColor', function (
 // When animation is used, we have to recalculate pattern dimensions after
 // resize, as the bounding boxes are not available until then.
 addEvent(H.Chart, 'endResize', function (): void {
+    const renderer = this.renderer;
     if (
-        (this.renderer && this.renderer.defIds || []).filter(function (
+        (renderer && renderer.defIds || []).filter(function (
             id: string
-        ): (boolean|string) {
+        ): (boolean | string) {
             return (
                 id &&
                 id.indexOf &&
-                id.indexOf('highcharts-pattern-') === 0
+                id.indexOf(renderer.url + 'highcharts-pattern-') === 0
             );
         }).length
     ) {
@@ -725,7 +726,7 @@ addEvent(H.Chart, 'redraw', function (): void {
         ): boolean {
             return (
                 pattern.indexOf &&
-                pattern.indexOf('highcharts-pattern-') === 0
+                pattern.indexOf(renderer.url + 'highcharts-pattern-') === 0
             );
         });
 
